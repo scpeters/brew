@@ -762,10 +762,11 @@ module Homebrew
 
     def formulae
       changed_formulae_dependents = {}
+      formulae_full_and_short = @formulae | @formulae.collect{|f| f[/[\w]+$/]}
 
       @formulae.each do |formula|
         formula_dependencies = Utils.popen_read("brew", "deps", "--include-build", formula).split("\n")
-        unchanged_dependencies = formula_dependencies - @formulae
+        unchanged_dependencies = formula_dependencies - formulae_full_and_short
         changed_dependences = formula_dependencies - unchanged_dependencies
         changed_dependences.each do |changed_formula|
           changed_formulae_dependents[changed_formula] ||= 0
