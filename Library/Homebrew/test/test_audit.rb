@@ -469,4 +469,19 @@ class FormulaAuditorTests < Homebrew::TestCase
       end
     end
   end
+
+  def test_audit_build_time_deps
+    fa = formula_auditor "foo", <<-EOS.undent
+      class Foo < Formula
+        homepage "http://example.com/foo"
+        url "http://example.com/foo-1.0.tgz"
+
+        depends_on "cmake"
+      end
+    EOS
+
+    fa.audit_deps
+    assert_equal ["cmake dependency should be"],
+      fa.problems
+  end
 end
