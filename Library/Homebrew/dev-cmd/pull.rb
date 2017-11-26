@@ -340,6 +340,15 @@ module Homebrew
       patch_args << "-3"
       patch_args << patchpath
 
+      # git am sometimes needs GIT_COMMITTER_EMAIL to be set
+      # https://github.com/Homebrew/homebrew-test-bot/issues/131
+      if ENV["HOMEBREW_GIT_NAME"]
+        ENV["GIT_COMMITTER_NAME"] = ENV["HOMEBREW_GIT_NAME"]
+      end
+      if ENV["HOMEBREW_GIT_EMAIL"]
+        ENV["GIT_COMMITTER_EMAIL"] = ENV["HOMEBREW_GIT_EMAIL"]
+      end
+
       begin
         safe_system "git", "am", *patch_args
       rescue ErrorDuringExecution
