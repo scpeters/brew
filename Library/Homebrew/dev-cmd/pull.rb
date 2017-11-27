@@ -80,6 +80,14 @@ module Homebrew
       odie "This command requires at least one argument containing a URL or pull request number"
     end
 
+    # git am sometimes needs GIT_COMMITTER_EMAIL to be set
+    if ENV["HOMEBREW_GIT_NAME"]
+      ENV["GIT_COMMITTER_NAME"] = ENV["HOMEBREW_GIT_NAME"]
+    end
+    if ENV["HOMEBREW_GIT_EMAIL"]
+      ENV["GIT_COMMITTER_EMAIL"] = ENV["HOMEBREW_GIT_EMAIL"]
+    end
+
     do_bump = ARGV.include?("--bump") && !ARGV.include?("--clean")
 
     # Formulae with affected bottles that were published
@@ -339,15 +347,6 @@ module Homebrew
       # Fall back to three-way merge if patch does not apply cleanly
       patch_args << "-3"
       patch_args << patchpath
-
-      # git am sometimes needs GIT_COMMITTER_EMAIL to be set
-      # https://github.com/Homebrew/homebrew-test-bot/issues/131
-      if ENV["HOMEBREW_GIT_NAME"]
-        ENV["GIT_COMMITTER_NAME"] = ENV["HOMEBREW_GIT_NAME"]
-      end
-      if ENV["HOMEBREW_GIT_EMAIL"]
-        ENV["GIT_COMMITTER_EMAIL"] = ENV["HOMEBREW_GIT_EMAIL"]
-      end
 
       begin
         safe_system "git", "am", *patch_args
