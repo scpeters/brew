@@ -171,7 +171,7 @@ module Cask
       basename = CGI.unescape(File.basename(@cask.url.path))
 
       if nested_container = @cask.container&.nested
-        Dir.mktmpdir do |tmpdir|
+        Dir.mktmpdir(nil, HOMEBREW_TEMP) do |tmpdir|
           tmpdir = Pathname(tmpdir)
           primary_container.extract(to: tmpdir, basename: basename, verbose: verbose?)
 

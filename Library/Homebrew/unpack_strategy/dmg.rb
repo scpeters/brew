@@ -124,7 +124,7 @@ module UnpackStrategy
     end
 
     def mount(verbose: false)
-      Dir.mktmpdir do |mount_dir|
+      Dir.mktmpdir(nil, HOMEBREW_TEMP) do |mount_dir|
         mount_dir = Pathname(mount_dir)
 
         without_eula = system_command(

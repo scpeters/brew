@@ -121,7 +121,7 @@ module UnpackStrategy
   end
 
   def extract_nestedly(to: nil, basename: nil, verbose: false, extension_only: false)
-    Dir.mktmpdir do |tmp_unpack_dir|
+    Dir.mktmpdir(nil, HOMEBREW_TEMP) do |tmp_unpack_dir|
       tmp_unpack_dir = Pathname(tmp_unpack_dir)
 
       extract(to: tmp_unpack_dir, basename: basename, verbose: verbose)

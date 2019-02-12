@@ -30,7 +30,7 @@ module UnpackStrategy
     private
 
     def extract_to_dir(unpack_dir, basename:, verbose:)
-      Dir.mktmpdir do |tmpdir|
+      Dir.mktmpdir(nil, HOMEBREW_TEMP) do |tmpdir|
         tar_path = path
 
         if DependencyCollector.tar_needs_xz_dependency? && Xz.can_extract?(path)
