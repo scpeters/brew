@@ -53,23 +53,17 @@ module Homebrew
         old = ":revision => \"#{formula_spec.specs[:revision]}\"\n"
       end
       new = old + "  revision 1\n"
-      if args.dry_run? && !args.write?
-        ohai "replace #{old.inspect} with #{new.inspect}" unless Homebrew.args.quiet?
-      else
-        Utils::Inreplace.inreplace(formula.path) do |s|
-          s.gsub!(old, new)
-        end
-      end
 
     else
       old = "revision #{current_revision}"
       new = "revision #{current_revision+1}"
-      if args.dry_run? && !arg.write?
-        ohai "replace #{old.inspect} with #{new.inspect}" unless Homebrew.args.quiet?
-      else
-        Utils::Inreplace.inreplace(formula.path) do |s|
-          s.gsub!(old, new)
-        end
+    end
+
+    if args.dry_run? && !args.write?
+      ohai "replace #{old.inspect} with #{new.inspect}" unless Homebrew.args.quiet?
+    else
+      Utils::Inreplace.inreplace(formula.path) do |s|
+        s.gsub!(old, new)
       end
     end
 
