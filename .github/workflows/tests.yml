@@ -1,18 +1,16 @@
 name: GitHub Actions CI
 on:
   push:
-    branches: master
   pull_request:
 env:
   HOMEBREW_DEVELOPER: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
 jobs:
   tests:
-    if: github.repository == 'Homebrew/brew'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest, macOS-11.0]
+        os: [macOS-latest, ubuntu-latest, macOS-11.0]
         include:
           - os: ubuntu-latest
             core-tap: 'linuxbrew-core'
